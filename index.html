@@ -50,7 +50,8 @@
   .item > .row{flex:none;min-width:calc(5*var(--u))}
   .item > .desc{flex:1;min-width:0}  /* 狭い画面では説明が自分の列の中で折り返す */
   .desc{color:var(--sub);opacity:0}         /* 見えなくても読み上げは常にされる */
-  .on .desc{opacity:1}
+  /* 説明：ホバー／フォーカス中（.hov）と、作品を開いている間（.on）に表示 */
+  .on .desc,.hov .desc{opacity:1}
 
   /* 操作の種類を示す記号：＋ はその場で開く／− は閉じる／↗ は外部サイトへ */
   .sign{margin-left:.35em}
@@ -58,9 +59,9 @@
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
   /* ホバー／フォーカス中は対象以外を沈める */
-  body.hovering .dimmable:not(.on),
-  body.hovering .dimmable:not(.on) .desc{color:var(--dim)}
-  body.hovering .dimmable:not(.on) .desc{opacity:0}
+  body.hovering .dimmable:not(.on):not(.hov),
+  body.hovering .dimmable:not(.on):not(.hov) .desc{color:var(--dim)}
+  body.hovering .dimmable:not(.on):not(.hov) .desc{opacity:0}
 
   /* 作品の配置（PC）
      ・メタルうさぎの原寸比率である正方形を基本単位とし、2×2の4枚で組む
@@ -81,8 +82,7 @@
 
   /* スマホ・タッチ端末 */
   @media (hover:none), (max-width:720px){
-    .desc{opacity:1}
-    body.hovering .dimmable:not(.on) .desc{opacity:1}
+    .item > .desc{opacity:1 !important}   /* スマホは説明を常に表示 */
     .row{min-height:calc(2*var(--u))}   /* スマホの押せる行 = 2行分（51.2px） */
     /* スマホ：同じ正方形（12u）を、タップした項目の真下に1段で並べ、横にスクロール */
     .item{flex-wrap:wrap}
@@ -179,7 +179,7 @@
     current = null;
     collage.classList.remove('show');
     document.body.classList.remove('showing');
-    if (!document.querySelector('.link.on')) document.body.classList.remove('hovering');
+    sync();
   }
   function open(btn){
     close();
@@ -199,14 +199,16 @@
     });
   });
 
-  // リンクはホバー／フォーカスで説明を出すだけ（作品の表示には影響しない）
+  // ホバー／フォーカスで説明を出す（作品もリンクも共通。画像の表示には影響しない）
+  function sync(){
+    document.body.classList.toggle('hovering', !!current || !!document.querySelector('.hov'));
+  }
   if (canHover){
-    links.forEach(li => {
-      const a = li.querySelector('a');
-      const on = () => { li.classList.add('on'); document.body.classList.add('hovering'); };
-      const off = () => { li.classList.remove('on'); if (!current) document.body.classList.remove('hovering'); };
+    document.querySelectorAll('.item').forEach(li => {
+      const on = () => { li.classList.add('hov'); sync(); };
+      const off = () => { li.classList.remove('hov'); sync(); };
       li.addEventListener('mouseenter', on); li.addEventListener('mouseleave', off);
-      a.addEventListener('focus', on); a.addEventListener('blur', off);
+      li.addEventListener('focusin', on); li.addEventListener('focusout', off);
     });
   }
 
