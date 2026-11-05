@@ -52,6 +52,11 @@
   .desc{color:var(--sub);opacity:0}         /* 見えなくても読み上げは常にされる */
   .on .desc{opacity:1}
 
+  /* 操作の種類を示す記号：＋ はその場で開く／− は閉じる／↗ は外部サイトへ */
+  .sign{margin-left:.35em}
+  /* 読み上げ専用（画面には出さない） */
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
   /* ホバー／フォーカス中は対象以外を沈める */
   body.hovering .dimmable:not(.on),
   body.hovering .dimmable:not(.on) .desc{color:var(--dim)}
@@ -67,7 +72,7 @@
     --s:round(down, min(calc((100svh - 3*var(--u)) / 2), calc((100vw - 25*var(--u)) / 2)), var(--u));
     position:fixed;top:var(--u);right:var(--u);
     display:grid;grid-template-columns:repeat(2,var(--s));grid-auto-rows:var(--s);gap:var(--u);
-    pointer-events:none;visibility:hidden;
+    visibility:hidden;
   }
   .collage.show{visibility:visible}
   .piece{width:var(--s);height:var(--s);margin:0;overflow:hidden}
@@ -115,15 +120,15 @@
   空なら灰色の仮ブロックを data-count 枚表示
 -->
 <ul class="block">
-  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-cw" data-count="4" data-img="images/cw-01.webp | 巨大な異形と対峙する人物を描いたCDジャケット『Chaos Control』, images/cw-02.webp | 翼を持ち槍を手にした戦士を描いたINHALE『BLUE MOMENT』のCDジャケット, images/cw-03.jpg | 薔薇と無数の線に包まれた人物を描いた摩天楼オペラ『EVIL』のCDジャケット, images/cw-04.webp | 花と蔓に囲まれた女性を描いたCDジャケット">client work</button><span class="desc" id="d-cw">バンド・アーティストからの依頼制作</span></li>
-  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-pw" data-count="4" data-img="images/pw-01.webp | 本棚の前で腕を組む女性を描いた写実的なイラスト, images/pw-02.webp | 白い花の中に横たわる二人の女性を描いた写実的なイラスト, images/pw-03.webp | 冬の森に立つパーカー姿の女性を描いた写実的なイラスト, images/pw-04.webp | 標本瓶が並ぶ棚の前に立つ女性を描いた写実的なイラスト">personal work</button><span class="desc" id="d-pw">写実的なイラスト</span></li>
-  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-mu" data-count="4" data-img="images/mu-01.webp | Slayer『Reign in Blood』のジャケットをうさぎでゆるく描いたイラスト, images/mu-02.webp | Obituary『Cause of Death』のジャケットをうさぎでゆるく描いたイラスト, images/mu-03.webp | Meshuggah『Destroy Erase Improve』のジャケットをうさぎでゆるく描いたイラスト, images/mu-04.webp | Acid Bath『When the Kite String Pops』のジャケットをうさぎでゆるく描いたイラスト">metal usagi</button><span class="desc" id="d-mu">メタルのジャケットをゆるく描く</span></li>
+  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-cw" data-count="4" data-img="images/cw-01.webp | 巨大な異形と対峙する人物を描いたCDジャケット『Chaos Control』, images/cw-02.webp | 翼を持ち槍を手にした戦士を描いたINHALE『BLUE MOMENT』のCDジャケット, images/cw-03.jpg | 薔薇と無数の線に包まれた人物を描いた摩天楼オペラ『EVIL』のCDジャケット, images/cw-04.webp | 花と蔓に囲まれた女性を描いたCDジャケット"><span class="label">client work</span><span class="sign" aria-hidden="true">+</span></button><span class="desc" id="d-cw">バンド・アーティストからの依頼制作</span></li>
+  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-pw" data-count="4" data-img="images/pw-01.webp | 本棚の前で腕を組む女性を描いた写実的なイラスト, images/pw-02.webp | 白い花の中に横たわる二人の女性を描いた写実的なイラスト, images/pw-03.webp | 冬の森に立つパーカー姿の女性を描いた写実的なイラスト, images/pw-04.webp | 標本瓶が並ぶ棚の前に立つ女性を描いた写実的なイラスト"><span class="label">personal work</span><span class="sign" aria-hidden="true">+</span></button><span class="desc" id="d-pw">写実的なイラスト</span></li>
+  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-mu" data-count="4" data-img="images/mu-01.webp | Slayer『Reign in Blood』のジャケットをうさぎでゆるく描いたイラスト, images/mu-02.webp | Obituary『Cause of Death』のジャケットをうさぎでゆるく描いたイラスト, images/mu-03.webp | Meshuggah『Destroy Erase Improve』のジャケットをうさぎでゆるく描いたイラスト, images/mu-04.webp | Acid Bath『When the Kite String Pops』のジャケットをうさぎでゆるく描いたイラスト"><span class="label">metal usagi</span><span class="sign" aria-hidden="true">+</span></button><span class="desc" id="d-mu">メタルのジャケットをゆるく描く</span></li>
 </ul>
 
 <ul class="block links">
-  <li class="dimmable item link"><a class="row" href="https://x.com/_hiropon__" aria-describedby="d-x">x</a><span class="desc" id="d-x">日々の制作</span></li>
-  <li class="dimmable item link"><a class="row" href="https://www.instagram.com/pon603_art/" aria-describedby="d-ig">instagram</a><span class="desc" id="d-ig">メタルうさぎを連載中</span></li>
-  <li class="dimmable item link"><a class="row" href="https://koheihirose.base.shop" aria-describedby="d-base">base</a><span class="desc" id="d-base">グッズ販売はこちら</span></li>
+  <li class="dimmable item link"><a class="row" href="https://x.com/_hiropon__" aria-describedby="d-x" target="_blank" rel="noopener">x<span class="sign" aria-hidden="true">↗</span><span class="sr">（新しいタブで開きます）</span></a><span class="desc" id="d-x">日々の制作</span></li>
+  <li class="dimmable item link"><a class="row" href="https://www.instagram.com/pon603_art/" aria-describedby="d-ig" target="_blank" rel="noopener">instagram<span class="sign" aria-hidden="true">↗</span><span class="sr">（新しいタブで開きます）</span></a><span class="desc" id="d-ig">メタルうさぎを連載中</span></li>
+  <li class="dimmable item link"><a class="row" href="https://koheihirose.base.shop" aria-describedby="d-base" target="_blank" rel="noopener">base<span class="sign" aria-hidden="true">↗</span><span class="sr">（新しいタブで開きます）</span></a><span class="desc" id="d-base">グッズ販売はこちら</span></li>
 </ul>
 
 <div class="collage" id="collage"></div>
@@ -151,7 +156,7 @@
       const el = document.createElement('figure');
       el.className = 'piece' + (placeholder ? ' ph' : '');
       if (placeholder){
-        el.textContent = btn.textContent + ' ' + (i+1);
+        el.textContent = btn.querySelector('.label').textContent + ' ' + (i+1);
         el.setAttribute('aria-hidden','true');
       } else {
         const img = new Image(); img.src = it.src; img.alt = it.alt; el.appendChild(img);
@@ -162,49 +167,55 @@
     document.body.classList.add('showing');
   }
 
-  function activate(li){ document.body.classList.add('hovering'); li.classList.add('on'); }
-  function reset(){
-    document.body.classList.remove('hovering');
-    document.querySelectorAll('.on').forEach(e => e.classList.remove('on'));
-    works.forEach(b => b.setAttribute('aria-expanded','false'));
+  // 作品はクリック／タップ／Enterで開き、開いたままにする（全端末共通）
+  // 閉じる：同じ項目をもう一度押す／別の項目を押す／Esc／画像と項目以外の場所を押す
+  let current = null;
+
+  function close(){
+    if (!current) return;
+    current.setAttribute('aria-expanded','false');
+    current.querySelector('.sign').textContent = '+';
+    current.parentElement.classList.remove('on');
+    current = null;
     collage.classList.remove('show');
     document.body.classList.remove('showing');
+    if (!document.querySelector('.link.on')) document.body.classList.remove('hovering');
   }
   function open(btn){
-    reset();
-    // タッチ端末では、画像の列をタップした項目の直下に移す
-    if (!canHover) btn.parentElement.appendChild(collage);
-    activate(btn.parentElement);
+    close();
+    if (!canHover) btn.parentElement.appendChild(collage);   // スマホでは押した項目の直下へ
+    current = btn;
     btn.setAttribute('aria-expanded','true');
+    btn.querySelector('.sign').textContent = '−';
+    btn.parentElement.classList.add('on');
+    document.body.classList.add('hovering');
     render(btn);
   }
 
   works.forEach(btn => {
-    // クリック／タップ／Enterで開閉（全端末共通）
-    btn.addEventListener('click', () => {
-      btn.getAttribute('aria-expanded') === 'true' ? reset() : open(btn);
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      current === btn ? close() : open(btn);
     });
-    if (canHover){
-      btn.addEventListener('mouseenter', () => open(btn));
-      btn.addEventListener('mouseleave', reset);
-      btn.addEventListener('focus', () => open(btn));
-      btn.addEventListener('blur', reset);
-    }
   });
 
+  // リンクはホバー／フォーカスで説明を出すだけ（作品の表示には影響しない）
   if (canHover){
     links.forEach(li => {
       const a = li.querySelector('a');
-      li.addEventListener('mouseenter', () => { reset(); activate(li); });
-      li.addEventListener('mouseleave', reset);
-      a.addEventListener('focus', () => { reset(); activate(li); });
-      a.addEventListener('blur', reset);
+      const on = () => { li.classList.add('on'); document.body.classList.add('hovering'); };
+      const off = () => { li.classList.remove('on'); if (!current) document.body.classList.remove('hovering'); };
+      li.addEventListener('mouseenter', on); li.addEventListener('mouseleave', off);
+      a.addEventListener('focus', on); a.addEventListener('blur', off);
     });
   }
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') reset(); });
+  document.addEventListener('click', e => {
+    if (current && !collage.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-  // ページの表示が終わったら、作品画像を裏で先読みしておく（初回ホバーの待ちをなくす）
+  // ページの表示が終わったら、作品画像を裏で先読みしておく（初めて開いたときの待ちをなくす）
   window.addEventListener('load', () => {
     const run = () => works.forEach(b => parse(b).forEach(it => { const i = new Image(); i.src = it.src; }));
     'requestIdleCallback' in window ? requestIdleCallback(run) : setTimeout(run, 500);
