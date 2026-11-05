@@ -6,6 +6,12 @@
 <title>kohei hirose</title>
 <meta name="description" content="kohei hirose — art director / illustrator">
 <meta name="theme-color" content="#0d0d0d">
+<!-- セキュリティ：読み込めるものの出どころを、このサイト自身とGoogle Fontsだけに限定する。
+     下のscriptを書き換えたら、script-src のハッシュも更新が必要 -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'sha256-npRWWSsvqkg9JoowM+ZsBsGjxEFocL+8h6+aYCr3hLY='; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- AIの学習への利用を望まない意思表示（非標準。対応するサービスのみ） -->
+<meta name="robots" content="noai, noimageai">
 <link rel="icon" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
