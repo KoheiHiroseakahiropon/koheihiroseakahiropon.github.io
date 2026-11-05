@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kohei hirose</title>
+<meta name="description" content="kohei hirose — art director / illustrator">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="icon" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400&family=IBM+Plex+Sans+JP:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#e9e7e2;          /* 本文  : 背景比 約16:1 */
+    --sub:#a3a19d;          /* 説明  : 背景比 約7.6:1 */
+    --dim:#7d7b78;          /* 沈め  : 背景比 約4.6:1（AA基準をぎりぎり維持） */
+    --paper:#0d0d0d;
+    --ph:#1d1d1d;
+    --u:1.6rem;             /* 基準単位 = 1行の高さ（16px × 1.6 = 25.6px） */
+    --g:var(--u);           /* 余白も同じ単位 */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--paper);color:var(--ink);-webkit-text-size-adjust:100%}
+  body{
+    font-family:"IBM Plex Sans","IBM Plex Sans JP",sans-serif;
+    font-size:1rem;          /* 16px基準。ブラウザの文字サイズ設定に追従 */
+    line-height:1.6;letter-spacing:.01em;
+    min-height:100svh;padding:var(--g);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  ul{list-style:none}
+  a,button{-webkit-tap-highlight-color:transparent}
+  button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+  h1{font:inherit}
+  .block + .block{margin-top:var(--u)}          /* ブロック間 = 空行1つ */
+
+  /* キーボード操作時だけ見えるフォーカス表示 */
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+  .logo{display:block;height:calc(4*var(--u));width:auto;margin-bottom:var(--u)}  /* ロゴ = 4行分の段落 */
+
+  /* PCは1行=約26px（WCAG AAの24px以上）でリズムを統一 */
+  .row{display:inline-flex;align-items:center;min-height:var(--u)}
+  /* ラベル5u ＋ 説明。説明の開始位置も単位の上（左端から6u） */
+  /* ラベルと説明は上揃え。説明が折り返しても、1行目がラベルと同じ行に乗る */
+  .item{display:flex;align-items:flex-start}
+  .item > .row{flex:none;min-width:calc(5*var(--u))}
+  .item > .desc{flex:1;min-width:0}  /* 狭い画面では説明が自分の列の中で折り返す */
+  .desc{color:var(--sub);opacity:0}         /* 見えなくても読み上げは常にされる */
+  .on .desc{opacity:1}
+
+  /* ホバー／フォーカス中は対象以外を沈める */
+  body.hovering .dimmable:not(.on),
+  body.hovering .dimmable:not(.on) .desc{color:var(--dim)}
+  body.hovering .dimmable:not(.on) .desc{opacity:0}
+
+  /* 作品の配置（PC）
+     ・メタルうさぎの原寸比率である正方形を基本単位とし、2×2の4枚で組む
+     ・文字は左端、画像は右端に固定する。間の空白が画面幅の差を吸収する
+     ・1辺 s は「画面の高さで2段」と「文字の列18u＋最小の空白4uを除いた幅で2列」の小さい方を、uの倍数に切り下げた値
+     ・上端はロゴの上端と同じ線 */
+  .collage{
+    --s:calc(16*var(--u));
+    --s:round(down, min(calc((100svh - 3*var(--u)) / 2), calc((100vw - 25*var(--u)) / 2)), var(--u));
+    position:fixed;top:var(--u);right:var(--u);
+    display:grid;grid-template-columns:repeat(2,var(--s));grid-auto-rows:var(--s);gap:var(--u);
+    pointer-events:none;visibility:hidden;
+  }
+  .collage.show{visibility:visible}
+  .piece{width:var(--s);height:var(--s);margin:0;overflow:hidden}
+  .piece img{display:block;width:100%;height:100%;object-fit:cover}
+  .piece.ph{background:var(--ph);display:flex;align-items:flex-end;padding:8px;font-size:.75rem;color:var(--sub)}
+
+  /* スマホ・タッチ端末 */
+  @media (hover:none), (max-width:720px){
+    .desc{opacity:1}
+    body.hovering .dimmable:not(.on) .desc{opacity:1}
+    .row{min-height:calc(2*var(--u))}   /* スマホの押せる行 = 2行分（51.2px） */
+    /* スマホ：同じ正方形（12u）を、タップした項目の真下に1段で並べ、横にスクロール */
+    .item{flex-wrap:wrap}
+    /* 説明の上下に0.5uずつ。1行なら2u、2行なら3u と、項目の高さが常にuの整数倍になる */
+    .item > .desc{padding:calc(.5*var(--u)) 0}
+    .item > .collage{flex-basis:calc(100% + 2*var(--u))}
+    .collage{
+      --s:calc(12*var(--u));
+      position:static;visibility:visible;display:none;
+      /* 見た目の余白：文字と画像の間 = 1u（空行1つ、ページ全体のブロック間と同じ）
+         画像と次の項目の間 = 2u（倍の距離で、画像が上の項目に属することを示す）
+         説明の下の0.5u・次の項目の上の0.5u と合わせて、項目の高さは常にuの整数倍 */
+      margin:calc(.5*var(--u)) calc(-1*var(--u)) calc(1.5*var(--u));padding:0 var(--u);
+      overflow-x:auto;pointer-events:auto;
+      scroll-snap-type:x mandatory;scroll-padding:var(--u);
+    }
+    .collage.show{display:flex;gap:var(--u)}
+    .piece{flex:none;scroll-snap-align:start}
+  }
+</style>
+</head>
+<body>
+
+<img class="logo" src="images/logo.png" alt="" width="800" height="962">
+
+<div class="block dimmable">
+  <h1>kohei hirose</h1>
+  <p>art director / illustrator</p>
+</div>
+
+<!--
+  コラージュで見せる項目
+  data-img : 「画像パス | 代替テキスト」をカンマ区切りで4枚並べる（正方形・1400×1400px で書き出し）
+    例 data-img="images/pw-01.jpg | 雨の路地の油彩, images/pw-02.jpg | 夜の港"
+  空なら灰色の仮ブロックを data-count 枚表示
+-->
+<ul class="block">
+  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-cw" data-count="4" data-img="images/cw-01.webp | 巨大な異形と対峙する人物を描いたCDジャケット『Chaos Control』, images/cw-02.webp | 翼を持ち槍を手にした戦士を描いたINHALE『BLUE MOMENT』のCDジャケット, images/cw-03.jpg | 薔薇と無数の線に包まれた人物を描いた摩天楼オペラ『EVIL』のCDジャケット, images/cw-04.webp | 花と蔓に囲まれた女性を描いたCDジャケット">client work</button><span class="desc" id="d-cw">バンド・アーティストからの依頼制作</span></li>
+  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-pw" data-count="4" data-img="images/pw-01.webp | 本棚の前で腕を組む女性を描いた写実的なイラスト, images/pw-02.webp | 白い花の中に横たわる二人の女性を描いた写実的なイラスト, images/pw-03.webp | 冬の森に立つパーカー姿の女性を描いた写実的なイラスト, images/pw-04.webp | 標本瓶が並ぶ棚の前に立つ女性を描いた写実的なイラスト">personal work</button><span class="desc" id="d-pw">写実的なイラスト</span></li>
+  <li class="dimmable item"><button class="row work" aria-expanded="false" aria-controls="collage" aria-describedby="d-mu" data-count="4" data-img="images/mu-01.webp | Slayer『Reign in Blood』のジャケットをうさぎでゆるく描いたイラスト, images/mu-02.webp | Obituary『Cause of Death』のジャケットをうさぎでゆるく描いたイラスト, images/mu-03.webp | Meshuggah『Destroy Erase Improve』のジャケットをうさぎでゆるく描いたイラスト, images/mu-04.webp | Acid Bath『When the Kite String Pops』のジャケットをうさぎでゆるく描いたイラスト">metal usagi</button><span class="desc" id="d-mu">メタルのジャケットをゆるく描く</span></li>
+</ul>
+
+<ul class="block links">
+  <li class="dimmable item link"><a class="row" href="https://x.com/_hiropon__" aria-describedby="d-x">x</a><span class="desc" id="d-x">日々の制作</span></li>
+  <li class="dimmable item link"><a class="row" href="https://www.instagram.com/pon603_art/" aria-describedby="d-ig">instagram</a><span class="desc" id="d-ig">メタルうさぎを連載中</span></li>
+  <li class="dimmable item link"><a class="row" href="https://koheihirose.base.shop" aria-describedby="d-base">base</a><span class="desc" id="d-base">グッズ販売はこちら</span></li>
+</ul>
+
+<div class="collage" id="collage"></div>
+
+<script>
+  const collage = document.getElementById('collage');
+  const works = [...document.querySelectorAll('.work')];
+  const links = [...document.querySelectorAll('.link')];
+  const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  const MAX = 4;
+
+  function parse(btn){
+    return (btn.dataset.img || '').split(',').map(s => s.trim()).filter(Boolean)
+      .map(s => { const [src, alt=''] = s.split('|').map(x => x.trim()); return {src, alt}; })
+      .slice(0, MAX);
+  }
+
+  function render(btn){
+    collage.innerHTML = '';
+    let list = parse(btn);
+    const placeholder = !list.length;
+    if (placeholder) list = Array.from({length: +btn.dataset.count || 3}, () => ({}));
+    list.forEach((it, i) => {
+      const el = document.createElement('figure');
+      el.className = 'piece' + (placeholder ? ' ph' : '');
+      if (placeholder){
+        el.textContent = btn.textContent + ' ' + (i+1);
+        el.setAttribute('aria-hidden','true');
+      } else {
+        const img = new Image(); img.src = it.src; img.alt = it.alt; el.appendChild(img);
+      }
+      collage.appendChild(el);
+    });
+    collage.classList.add('show');
+    document.body.classList.add('showing');
+  }
+
+  function activate(li){ document.body.classList.add('hovering'); li.classList.add('on'); }
+  function reset(){
+    document.body.classList.remove('hovering');
+    document.querySelectorAll('.on').forEach(e => e.classList.remove('on'));
+    works.forEach(b => b.setAttribute('aria-expanded','false'));
+    collage.classList.remove('show');
+    document.body.classList.remove('showing');
+  }
+  function open(btn){
+    reset();
+    // タッチ端末では、画像の列をタップした項目の直下に移す
+    if (!canHover) btn.parentElement.appendChild(collage);
+    activate(btn.parentElement);
+    btn.setAttribute('aria-expanded','true');
+    render(btn);
+  }
+
+  works.forEach(btn => {
+    // クリック／タップ／Enterで開閉（全端末共通）
+    btn.addEventListener('click', () => {
+      btn.getAttribute('aria-expanded') === 'true' ? reset() : open(btn);
+    });
+    if (canHover){
+      btn.addEventListener('mouseenter', () => open(btn));
+      btn.addEventListener('mouseleave', reset);
+      btn.addEventListener('focus', () => open(btn));
+      btn.addEventListener('blur', reset);
+    }
+  });
+
+  if (canHover){
+    links.forEach(li => {
+      const a = li.querySelector('a');
+      li.addEventListener('mouseenter', () => { reset(); activate(li); });
+      li.addEventListener('mouseleave', reset);
+      a.addEventListener('focus', () => { reset(); activate(li); });
+      a.addEventListener('blur', reset);
+    });
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') reset(); });
+
+  // ページの表示が終わったら、作品画像を裏で先読みしておく（初回ホバーの待ちをなくす）
+  window.addEventListener('load', () => {
+    const run = () => works.forEach(b => parse(b).forEach(it => { const i = new Image(); i.src = it.src; }));
+    'requestIdleCallback' in window ? requestIdleCallback(run) : setTimeout(run, 500);
+  });
+</script>
+</body>
+</html>
